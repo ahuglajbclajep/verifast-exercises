@@ -4,7 +4,7 @@
 VeriFast will verify the following contents.
 * Calculation result satisfies the specification.
 * Memory safety.
-* No overflow/underflow.
+* Overflow/underflow in numerical calculation.
 * Illegal lock/unlock in concurrent programming.
 * Halting problem.
 
