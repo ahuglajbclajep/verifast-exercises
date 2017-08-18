@@ -9,8 +9,8 @@ int main()
     //@ requires true;
     //@ ensures true;
 {
-    account_t *my_account = malloc(sizeof(account_t));
-    if (my_account == 0) { abort(); }
+    account_t* my_account = malloc(sizeof(account_t));
+    if (my_account == 0) abort();
     my_account->balance = 5;
     free(my_account);
 
