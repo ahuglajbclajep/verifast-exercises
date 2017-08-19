@@ -1,4 +1,5 @@
 #include "stdlib.h"
+#include <assert.h>
 
 struct account {
     int balance;
