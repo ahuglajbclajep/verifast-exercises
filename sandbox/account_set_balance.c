@@ -6,6 +6,8 @@ struct account {
 typedef struct account account_t;
 
 void account_set_balance(account_t* my_account, int new_balance)
+    //@ requires account_balance(my_account, _);
+    //@ ensures true;
 {
     my_account->balance = new_balance;
 }
