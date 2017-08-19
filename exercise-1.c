@@ -7,13 +7,13 @@ typedef struct account account_t;
 
 account_t* create_account()
     //@ requires true;
-    //@ ensures  result->balance |-> _ &*& malloc_block_account(result);
+    //@ ensures  result->balance |-> 0 &*& malloc_block_account(result);
 {
-    account_t* tmp = malloc(sizeof(account_t));
-    if (!tmp) abort();
-    tmp->balance = 0;
+    account_t* the_account = malloc(sizeof(account_t));
+    if (!the_account) abort();
+    the_account->balance = 0;
 
-    return tmp;
+    return the_account;
 }
 
 void account_set_balance(account_t* my_account, int new_balance)
