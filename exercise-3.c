@@ -9,14 +9,14 @@ typedef struct account account_t;
 
 account_t* create_account(int limit)
     //@ requires limit <= 0;
-    //@ ensures  result->balance |-> _ &*& result->limit |-> limit &*& malloc_block_account(result);
+    //@ ensures  result->balance |-> 0 &*& result->limit |-> limit &*& malloc_block_account(result);
 {
-    account_t* tmp = malloc(sizeof(account_t));
-    if (!tmp) abort();
-    tmp->balance = 0;
-    tmp->limit = limit;
+    account_t* the_account = malloc(sizeof(account_t));
+    if (!the_account) abort();
+    the_account->balance = 0;
+    the_account->limit = limit;
 
-    return tmp;
+    return the_account;
 }
 
 int account_get_balance(account_t* my_account)
@@ -33,7 +33,14 @@ void account_deposit(account_t* my_account, int amount)
     my_account->balance += amount;
 }
 
-int account_withdraw(account_t* my_account, int amount);
+int account_withdraw(account_t* my_account, int amount)
+{
+    int withdrawal_amount = my_account->balance - amount < my_account->limit ?
+        my_account->balance - my_account->limit : amount;
+    my_account->balance -= withdrawal_amount;
+
+    return withdrawal_amount;
+}
 
 void dispose_account(account_t* my_account)
     //@ requires my_account->balance |-> _ &*& my_account->limit |-> _ &*& malloc_block_account(my_account);
