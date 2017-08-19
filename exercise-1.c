@@ -7,7 +7,7 @@ typedef struct account account_t;
 
 account_t* create_account()
     //@ requires true;
-    //@ ensures  account_balance(result, 0) &*& malloc_block_account(result);
+    //@ ensures  result->balance |-> _ &*& malloc_block_account(result);
 {
     account_t* tmp = malloc(sizeof(account_t));
     if (!tmp) abort();
@@ -24,7 +24,7 @@ void account_set_balance(account_t* my_account, int new_balance)
 }
 
 void dispose_account(account_t* my_account)
-    //@ requires true;
+    //@ requires my_account->balance |-> _ &*& malloc_block_account(my_account);
     //@ ensures  true;
 {
     free(my_account);
