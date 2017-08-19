@@ -9,7 +9,11 @@ account_t* account_creation()
     //@ requires true;
     //@ ensures  true;
 {
-    return malloc(sizeof(account_t));
+    account_t* tmp = malloc(sizeof(account_t));
+    if (!tmp) return 0;
+    tmp->balance = 0;
+
+    return tmp;
 }
 
 void account_set_balance(account_t* my_account, int new_balance)
