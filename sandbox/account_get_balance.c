@@ -17,8 +17,8 @@ account_t* create_account()
 }
 
 int account_get_balance(account_t* my_account)
-    //@ requires my_account->balance |-> _;
-    //@ ensures  my_account->balance |-> _;
+    //@ requires my_account->balance |-> ?the_balance;
+    //@ ensures  my_account->balance |-> the_balance &*& result == the_balance;
 {
     return my_account->balance;
 }
