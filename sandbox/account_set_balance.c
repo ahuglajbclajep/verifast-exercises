@@ -7,15 +7,14 @@ typedef struct account account_t;
 
 void account_set_balance(account_t* my_account, int new_balance)
     //@ requires my_account->balance |-> _;
-    //@ ensures true;
+    //@ ensures  my_account->balance |-> new_balance;
 {
     my_account->balance = new_balance;
-    //@ leak my_account->balance |-> _;
 }
 
 int main()
     //@ requires true;
-    //@ ensures true;
+    //@ ensures  true;
 {
     account_t* my_account = malloc(sizeof(account_t));
     if (!my_account) abort();
