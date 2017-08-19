@@ -5,12 +5,12 @@ struct account {
 };
 typedef struct account account_t;
 
-account_t* account_creation()
+account_t* create_account()
     //@ requires true;
-    //@ ensures  true;
+    //@ ensures  account_balance(result, 0) &*& malloc_block_account(result);
 {
     account_t* tmp = malloc(sizeof(account_t));
-    if (!tmp) return 0;
+    if (!tmp) abort();
     tmp->balance = 0;
 
     return tmp;
@@ -23,7 +23,7 @@ void account_set_balance(account_t* my_account, int new_balance)
     my_account->balance = new_balance;
 }
 
-void account_disposal(account_t* my_account)
+void dispose_account(account_t* my_account)
     //@ requires true;
     //@ ensures  true;
 {
@@ -34,10 +34,9 @@ int main()
     //@ requires true;
     //@ ensures  true;
 {
-    account_t* my_account = account_creation();
-    if (!my_account) abort();
+    account_t* my_account = create_account();
     account_set_balance(my_account, 5);
-    account_disposal(my_account);
+    dispose_account(my_account);
 
     return 0;
 }
