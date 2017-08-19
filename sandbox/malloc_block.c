@@ -1,3 +1,8 @@
+/*
+ * This code can be compiled with gcc, but it fails to run.
+ * `free()` for local variables can be detected by VeriFast.
+ */
+
 #include "stdlib.h"
 
 struct account {
@@ -11,8 +16,8 @@ int main()
 {
     account_t my_account_local;
     account_t* my_account = &my_account_local;
-    my_account->balance = 5;
-    free(my_account);
+    my_account->balance = 5;  // pass
+    free(my_account);  // error
 
     return 0;
 }
