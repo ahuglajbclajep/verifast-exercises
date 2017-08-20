@@ -33,10 +33,12 @@ int account_get_balance(account_t* my_account)
 }
 
 void account_deposit(account_t* my_account, int amount)
-    //@ requires my_account->balance |-> ?the_balance &*& 0 <= amount;
-    //@ ensures  my_account->balance |-> the_balance + amount;
+    //@ requires account_pred(my_account, ?balance, ?limit) &*& 0 <= amount;
+    //@ ensures  account_pred(my_account, balance + amount, limit);
 {
+    //@ open  account_pred(my_account, balance, limit);
     my_account->balance += amount;
+    //@ close account_pred(my_account, balance + amount, limit);
 }
 
 int account_withdraw(account_t* my_account, int amount)
