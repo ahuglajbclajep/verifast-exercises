@@ -21,9 +21,9 @@ account_t* create_account(int limit)
     if (!the_account) abort();
     the_account->balance = 0;
     the_account->limit = limit;
+    //@ close account_pred(the_account, 0, limit);
 
     return the_account;
-    //@ close account_pred(the_account, 0, limit);
 }
 
 int account_get_balance(account_t* my_account)
@@ -36,7 +36,7 @@ int account_get_balance(account_t* my_account)
 }
 
 void account_deposit(account_t* my_account, int amount)
-    //@ requires account_pred(my_account, ?balance, ?limit) &*& 0 <= amount;
+    //@ requires 0 <= amount &*& account_pred(my_account, ?balance, ?limit);
     //@ ensures  account_pred(my_account, balance + amount, limit);
 {
     //@ open account_pred(my_account, balance, limit);
@@ -45,7 +45,7 @@ void account_deposit(account_t* my_account, int amount)
 }
 
 int account_withdraw(account_t* my_account, int amount)
-    //@ requires account_pred(my_account, ?balance, ?limit) &*& 0 <= amount;
+    //@ requires 0 <= amount &*& account_pred(my_account, ?balance, ?limit);
     /*@ ensures  account_pred(my_account, balance - result, limit) &*&
             result == (balance - amount < limit ? balance - limit : amount); @*/
 {
@@ -53,9 +53,9 @@ int account_withdraw(account_t* my_account, int amount)
     int withdrawal_amount = my_account->balance - amount < my_account->limit ?
         my_account->balance - my_account->limit : amount;
     my_account->balance -= withdrawal_amount;
+    //@ close account_pred(my_account, balance - withdrawal_amount, limit);
 
     return withdrawal_amount;
-    //@ close account_pred(my_account, balance - withdrawal_amount, limit);
 }
 
 void dispose_account(account_t* my_account)
