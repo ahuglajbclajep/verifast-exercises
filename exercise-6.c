@@ -68,7 +68,7 @@ int stack_pop(stack_t* stack)
 
 void nodes_dispose(node_t* node)
     //@ requires nodes(node, _);
-    //@ ensures true;
+    //@ ensures  true;
 {
     //@ open nodes(node, _);
     if (node != 0) {
@@ -79,7 +79,7 @@ void nodes_dispose(node_t* node)
 
 void stack_dispose(stack_t* stack)
     //@ requires stack(stack, _);
-    //@ ensures true;
+    //@ ensures  true;
 {
     //@ open stack(stack, _);
     nodes_dispose(stack->head);
@@ -102,7 +102,7 @@ bool stack_is_empty(stack_t* stack)
 
 int main()
     //@ requires true;
-    //@ ensures true;
+    //@ ensures  true;
 {
     stack_t* stack = create_stack();
     stack_push(stack, 10);

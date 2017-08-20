@@ -69,7 +69,7 @@ int stack_pop(stack_t* stack)
 
 void stack_dispose(stack_t* stack)
     //@ requires stack(stack, 0);
-    //@ ensures true;
+    //@ ensures  true;
 {
     //@ open stack(stack, _);
     //@ open nodes(_, _);
@@ -78,7 +78,7 @@ void stack_dispose(stack_t* stack)
 
 int main()
     //@ requires true;
-    //@ ensures true;
+    //@ ensures  true;
 {
     stack_t* stack = create_stack();
     stack_push(stack, 10);
