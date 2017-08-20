@@ -7,9 +7,10 @@ struct account {
 };
 typedef struct account account_t;
 
-/*@ predicate account_pred(account_t* the_account, int the_balance, int the_limit)
-    = the_account->balance |-> the_balance &*& the_account->limit |-> the_limit
-    &*& malloc_block_account(the_account);
+/*@
+predicate account_pred(account_t* the_account, int the_balance, int the_limit) =
+    the_account->balance |-> the_balance &*& the_account->limit |-> the_limit &*&
+    malloc_block_account(the_account);
 @*/
 
 account_t* create_account(int limit)
@@ -21,8 +22,8 @@ account_t* create_account(int limit)
     the_account->balance = 0;
     the_account->limit = limit;
 
-    //@ close account_pred(the_account, 0, limit);
     return the_account;
+    //@ close account_pred(the_account, 0, limit);
 }
 
 int account_get_balance(account_t* my_account)
@@ -45,16 +46,16 @@ void account_deposit(account_t* my_account, int amount)
 
 int account_withdraw(account_t* my_account, int amount)
     //@ requires account_pred(my_account, ?balance, ?limit) &*& 0 <= amount;
-    /*@ ensures  account_pred(my_account, balance - result, limit)
-        &*& result == (balance - amount < limit ? balance - limit : amount); @*/
+    /*@ ensures  account_pred(my_account, balance - result, limit) &*&
+            result == (balance - amount < limit ? balance - limit : amount); @*/
 {
     //@ open account_pred(my_account, balance, limit);
     int withdrawal_amount = my_account->balance - amount < my_account->limit ?
         my_account->balance - my_account->limit : amount;
     my_account->balance -= withdrawal_amount;
 
-    //@ close account_pred(my_account, balance - withdrawal_amount, limit);
     return withdrawal_amount;
+    //@ close account_pred(my_account, balance - withdrawal_amount, limit);
 }
 
 void dispose_account(account_t* my_account)
