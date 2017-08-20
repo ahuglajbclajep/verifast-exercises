@@ -78,7 +78,7 @@ void nodes_dispose(node_t* node)
 }
 
 void stack_dispose(stack_t* stack)
-    //@ requires stack(stack, 0);
+    //@ requires stack(stack, _);
     //@ ensures true;
 {
     //@ open stack(stack, _);
