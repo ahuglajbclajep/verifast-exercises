@@ -1,5 +1,4 @@
 #include "stdlib.h"
-#include <assert.h>
 
 struct node {
     int value;
