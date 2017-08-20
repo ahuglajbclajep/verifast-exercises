@@ -13,9 +13,12 @@ struct stack {
 typedef struct stack stack_t;
 
 /*@
-predicate node(node_t* node) =
+predicate nodes(node_t* node, int cnt) =
     node->value |-> ?value &*& node->next |-> ?next &*& 
-    malloc_block_node(node);
+    malloc_block_node(node) &*& nodes(next, cnt - 1);
+
+predicate stack(stack_t* stack, int cnt) =
+    stack->head |-> ?head &*& malloc_block_stack(stack) &*& nodes(head, cnt);
 @*/
 
 stack_t* create_stack()
