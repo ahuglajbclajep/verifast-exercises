@@ -13,12 +13,14 @@ struct stack {
 typedef struct stack stack_t;
 
 /*@
-predicate nodes(node_t* node, int cnt) =
-    node->value |-> ?value &*& node->next |-> ?next &*& 
-    malloc_block_node(node) &*& nodes(next, cnt - 1);
+predicate nodes(node_t* node, int size) =
+    !node ? size == 0 : 0 < size &*&
+    node->value |-> ?value &*& node->next |-> ?next &*&
+    malloc_block_node(node) &*& nodes(next, size - 1);
 
-predicate stack(stack_t* stack, int cnt) =
-    stack->head |-> ?head &*& malloc_block_stack(stack) &*& nodes(head, cnt);
+predicate stack(stack_t* stack, int size) =
+    0 <= size &*& stack->head |-> ?head &*&
+    malloc_block_stack(stack) &*& nodes(head, size);
 @*/
 
 stack_t* create_stack()
