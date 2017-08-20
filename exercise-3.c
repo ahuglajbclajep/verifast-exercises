@@ -28,7 +28,7 @@ int account_get_balance(account_t* my_account)
 }
 
 void account_deposit(account_t* my_account, int amount)
-    //@ requires my_account->balance |-> ?the_balance;
+    //@ requires my_account->balance |-> ?the_balance &*& 0 <= amount;
     //@ ensures  my_account->balance |-> the_balance + amount;
 {
     my_account->balance += amount;
