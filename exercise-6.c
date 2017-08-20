@@ -17,7 +17,6 @@ predicate nodes(node_t* node, int size) =
     !node ? size == 0 : 0 < size &*&
     node->value |-> ?value &*& node->next |-> ?next &*&
     malloc_block_node(node) &*& nodes(next, size - 1);
-
 predicate stack(stack_t* stack, int size) =
     0 <= size &*& stack->head |-> ?head &*&
     malloc_block_stack(stack) &*& nodes(head, size);
@@ -67,13 +66,38 @@ int stack_pop(stack_t* stack)
     return value;
 }
 
+void nodes_dispose(node_t* node)
+    //@ requires nodes(node, _);
+    //@ ensures true;
+{
+    //@ open nodes(node, _);
+    if (node != 0) {
+        nodes_dispose(node->next);
+        free(node);
+    }
+}
+
 void stack_dispose(stack_t* stack)
     //@ requires stack(stack, 0);
     //@ ensures true;
 {
     //@ open stack(stack, _);
-    //@ open nodes(_, _);
+    nodes_dispose(stack->head);
     free(stack);
+}
+
+bool stack_is_empty(stack_t* stack)
+    //@ requires stack(stack, ?size);
+    //@ ensures  stack(stack, size) &*& result == (size == 0);
+{
+    //@ open stack(stack, size);
+    node_t* head = stack->head;
+    //@ open nodes(head, size);
+    bool result = stack->head == 0;
+    //@ close nodes(head, size);
+    //@ close stack(stack, size);
+
+    return result;
 }
 
 int main()
