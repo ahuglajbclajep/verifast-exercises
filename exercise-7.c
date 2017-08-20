@@ -68,7 +68,7 @@ int stack_pop(stack_t* stack)
 
 void nodes_dispose(node_t* node)
     //@ requires nodes(node, _);
-    //@ ensures true;
+    //@ ensures  true;
 {
     //@ open nodes(node, _);
     if (node) {
@@ -79,7 +79,7 @@ void nodes_dispose(node_t* node)
 
 void stack_dispose(stack_t* stack)
     //@ requires stack(stack, _);
-    //@ ensures true;
+    //@ ensures  true;
 {
     //@ open stack(stack, _);
     nodes_dispose(stack->head);
@@ -101,24 +101,32 @@ bool stack_is_empty(stack_t* stack)
 }
 
 int nodes_get_sum(node_t* node)
+    //@ requires nodes(node, ?size);
+    //@ ensures  nodes(node, size);
 {
     int sum = 0;
     if (node) {
+        //@ open nodes(node, size);
         sum = nodes_get_sum(node->next);
         sum += node->value;
+        //@ close nodes(node, size);
     }
 
     return sum;
 }
 
 int stack_get_sum(stack_t* stack)
+    //@ requires stack(stack, ?size);
+    //@ ensures  stack(stack, size);
 {
+    //@ open stack(stack, size);
     return nodes_get_sum(stack->head);
+    //@ close stack(stack, size);
 }
 
 int main()
     //@ requires true;
-    //@ ensures true;
+    //@ ensures  true;
 {
     stack_t* stack = create_stack();
     stack_push(stack, 10);
