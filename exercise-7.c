@@ -1,5 +1,5 @@
 #include "stdlib.h"
-#include <assert.h>
+#include <stdbool.h>
 
 struct node {
     int value;
@@ -92,12 +92,11 @@ bool stack_is_empty(stack_t* stack)
 {
     //@ open stack(stack, size);
     node_t* head = stack->head;
+
     //@ open nodes(head, size);
-    bool result = stack->head == 0;
+    return stack->head == 0;
     //@ close nodes(head, size);
     //@ close stack(stack, size);
-
-    return result;
 }
 
 int nodes_get_sum(node_t* node)
