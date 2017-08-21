@@ -67,23 +67,21 @@ int stack_pop(stack_t* stack)
     return value;
 }
 
-void nodes_dispose(node_t* node)
-    //@ requires nodes(node, _);
-    //@ ensures  true;
-{
-    //@ open nodes(node, _);
-    if (node) {
-        nodes_dispose(node->next);
-        free(node);
-    }
-}
-
 void stack_dispose(stack_t* stack)
     //@ requires stack(stack, _);
     //@ ensures  true;
 {
     //@ open stack(stack, _);
-    nodes_dispose(stack->head);
+    node_t* node = stack->head;
+    while (node)
+        //@ invariant nodes(node, _);
+    {
+        //@ open nodes(node, _);
+        node_t* next = node->next;
+        free(node);
+        node = next;
+    }
+    //@ open nodes(0, _);
     free(stack);
 }
 

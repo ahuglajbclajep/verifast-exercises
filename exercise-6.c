@@ -17,6 +17,7 @@ predicate nodes(node_t* node, int size) =
     !node ? size == 0 : 0 < size &*&
     node->value |-> ?value &*& node->next |-> ?next &*&
     malloc_block_node(node) &*& nodes(next, size - 1);
+
 predicate stack(stack_t* stack, int size) =
     0 <= size &*& stack->head |-> ?head &*&
     malloc_block_stack(stack) &*& nodes(head, size);
