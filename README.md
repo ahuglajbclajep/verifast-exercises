@@ -11,3 +11,6 @@ VeriFast will verify the following contents.
 Here, I will solve the [tutorial](http://people.cs.kuleuven.be/~bart.jacobs/verifast/tutorial.pdf) exercises.
 
 If you hate bugs more, you may want to use [CompCert C compiler](http://compcert.inria.fr) together.
+
+## License
+[MIT](LICENSE)
