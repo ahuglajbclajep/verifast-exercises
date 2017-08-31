@@ -73,7 +73,7 @@ void stack_popn(stack_t* stack, int n)
 {
     int cnt = 0;
     while (cnt < n)
-        //@ invariant stack(stack, size - cnt);
+        //@ invariant stack(stack, size - cnt) &*& cnt <= n;
     {
         stack_pop(stack);
         cnt++;
