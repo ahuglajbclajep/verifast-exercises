@@ -68,9 +68,12 @@ int stack_pop(stack_t* stack)
 }
 
 void stack_popn(stack_t* stack, int n)
+    //@ requires stack(stack, ?size) &*& 0 <= n &*& n <= size;
+    //@ ensures  stack(stack, size - n);
 {
     int cnt = 0;
     while (cnt < n)
+        //@ invariant stack(stack, size - cnt);
     {
         stack_pop(stack);
         cnt++;
