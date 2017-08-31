@@ -1,5 +1,5 @@
 # bank-account
-Example of file splitting and Makefile.
+Example of file splitting and Makefile.  
 This is based on *Exercise 4*.
 
 ## Usage
