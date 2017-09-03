@@ -25,7 +25,7 @@ predicate stack(stack_t* stack, ints values) =
 
 stack_t* create_stack()
     //@ requires true;
-    //@ ensures  stack(result, 0);
+    //@ ensures  stack(result, ints_nil);
 {
     stack_t* stack = malloc(sizeof(stack_t));
     if (!stack) abort();
@@ -37,8 +37,8 @@ stack_t* create_stack()
 }
 
 void stack_push(stack_t* stack, int value)
-    //@ requires stack(stack, ?size);
-    //@ ensures  stack(stack, size + 1);
+    //@ requires stack(stack, ?values);
+    //@ ensures  stack(stack, ints_cons(value, values));
 {
     node_t* new_node = malloc(sizeof(node_t));
     if (!new_node) abort();
@@ -51,6 +51,7 @@ void stack_push(stack_t* stack, int value)
     //@ close stack(stack, size + 1);
 }
 
+/*
 int stack_pop(stack_t* stack)
     //@ requires stack(stack, ?size) &*& 0 < size;
     //@ ensures  stack(stack, size -1);
@@ -66,9 +67,10 @@ int stack_pop(stack_t* stack)
 
     return value;
 }
+*/
 
 void stack_dispose(stack_t* stack)
-    //@ requires stack(stack, 0);
+    //@ requires stack(stack, ints_nil);
     //@ ensures  true;
 {
     //@ open stack(stack, _);
@@ -83,8 +85,13 @@ int main()
     stack_t* stack = create_stack();
     stack_push(stack, 10);
     stack_push(stack, 20);
-    stack_pop(stack);
-    stack_pop(stack);
+/*
+    int result1 = stack_pop(stack);
+    assert(result1 == 20);
+
+    int result2 = stack_pop(stack);
+    assert(result2 == 10);
+*/
     stack_dispose(stack);
 
     return 0;
