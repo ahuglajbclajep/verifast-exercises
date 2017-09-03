@@ -1,4 +1,5 @@
-#include "stdlib.h"
+#include <stdlib.h>
+#include <assert.h>
 
 struct node {
     int value;
@@ -30,8 +31,8 @@ stack_t* create_stack()
     stack_t* stack = malloc(sizeof(stack_t));
     if (!stack) abort();
     stack->head = 0;
-    //@ close nodes(0, 0);
-    //@ close stack(stack, 0);
+    //@ close nodes(0, ints_nil);
+    //@ close stack(stack, ints_nil);
 
     return stack;
 }
@@ -44,11 +45,11 @@ void stack_push(stack_t* stack, int value)
     if (!new_node) abort();
     new_node->value = value;
 
-    //@ open stack(stack, size);
+    //@ open stack(stack, values);
     new_node->next = stack->head;
     stack->head = new_node;
-    //@ close nodes(new_node, size + 1);
-    //@ close stack(stack, size + 1);
+    //@ close nodes(new_node, ints_cons(value, values));
+    //@ close stack(stack, ints_cons(value, values));
 }
 
 /*
@@ -73,7 +74,7 @@ void stack_dispose(stack_t* stack)
     //@ requires stack(stack, ints_nil);
     //@ ensures  true;
 {
-    //@ open stack(stack, _);
+    //@ open stack(stack, ints_nil);
     //@ open nodes(_, _);
     free(stack);
 }
