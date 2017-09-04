@@ -29,6 +29,13 @@ fixpoint int_list int_list_tail(int_list list) {
     }
 }
 
+fixpoint int int_list_sum(int_list list) {
+    switch (list) {
+        case int_list_nil: return 0;
+        case int_list_cons(x, xs): return x + int_list_sum(xs);
+    }
+}
+
 predicate nodes(node_t* node, int_list value_list) =
     !node ? value_list == int_list_nil : node->value |-> ?value &*&
     node->next |-> ?next &*& malloc_block_node(node) &*&
@@ -93,22 +100,22 @@ void stack_dispose(stack_t* stack)
 
 int nodes_get_sum(node_t* node)
     //@ requires nodes(node, ?value_list);
-    //@ ensures  nodes(node, value_list);
+    //@ ensures  nodes(node, value_list) &*& result == int_list_sum(value_list);
 {
     int sum = 0;
+    //@ open nodes(node, value_list);
     if (node) {
-        //@ open nodes(node, value_list);
         sum = nodes_get_sum(node->next);
         sum += node->value;
-        //@ close nodes(node, value_list);
     }
+    //@ close nodes(node, value_list);
 
     return sum;
 }
 
 int stack_get_sum(stack_t* stack)
     //@ requires stack(stack, ?value_list);
-    //@ ensures  stack(stack, value_list);
+    //@ ensures  stack(stack, value_list) &*& result == int_list_sum(value_list);
 {
     //@ open stack(stack, value_list);
     return nodes_get_sum(stack->head);
