@@ -13,43 +13,43 @@ struct stack {
 typedef struct stack stack_t;
 
 /*@
-inductive ints = ints_nil | ints_cons(int, ints);
+inductive int_list = int_list_nil | int_list_cons(int, int_list);
 
-predicate nodes(node_t* node, ints values) =
-    !node ? values == ints_nil : node->value |-> ?value &*&
+predicate nodes(node_t* node, int_list value_list) =
+    !node ? value_list == int_list_nil : node->value |-> ?value &*&
     node->next |-> ?next &*& malloc_block_node(node) &*&
-    nodes(next, ?values0) &*& values == ints_cons(value, values0);
+    nodes(next, ?xs) &*& value_list == int_list_cons(value, xs);
 
-predicate stack(stack_t* stack, ints values) =
-    stack->head |-> ?head &*& malloc_block_stack(stack) &*& nodes(head, values);
+predicate stack(stack_t* stack, int_list value_list) =
+    stack->head |-> ?head &*& malloc_block_stack(stack) &*& nodes(head, value_list);
 @*/
 
 stack_t* create_stack()
     //@ requires true;
-    //@ ensures  stack(result, ints_nil);
+    //@ ensures  stack(result, int_list_nil);
 {
     stack_t* stack = malloc(sizeof(stack_t));
     if (!stack) abort();
     stack->head = 0;
-    //@ close nodes(0, ints_nil);
-    //@ close stack(stack, ints_nil);
+    //@ close nodes(0, int_list_nil);
+    //@ close stack(stack, int_list_nil);
 
     return stack;
 }
 
 void stack_push(stack_t* stack, int value)
-    //@ requires stack(stack, ?values);
-    //@ ensures  stack(stack, ints_cons(value, values));
+    //@ requires stack(stack, ?value_list);
+    //@ ensures  stack(stack, int_list_cons(value, value_list));
 {
     node_t* new_node = malloc(sizeof(node_t));
     if (!new_node) abort();
     new_node->value = value;
 
-    //@ open stack(stack, values);
+    //@ open stack(stack, value_list);
     new_node->next = stack->head;
     stack->head = new_node;
-    //@ close nodes(new_node, ints_cons(value, values));
-    //@ close stack(stack, ints_cons(value, values));
+    //@ close nodes(new_node, int_list_cons(value, value_list));
+    //@ close stack(stack, int_list_cons(value, value_list));
 }
 
 /*
@@ -71,10 +71,10 @@ int stack_pop(stack_t* stack)
 */
 
 void stack_dispose(stack_t* stack)
-    //@ requires stack(stack, ints_nil);
+    //@ requires stack(stack, int_list_nil);
     //@ ensures  true;
 {
-    //@ open stack(stack, ints_nil);
+    //@ open stack(stack, int_list_nil);
     //@ open nodes(_, _);
     free(stack);
 }
