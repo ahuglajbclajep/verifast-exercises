@@ -18,10 +18,10 @@ $(OBJ_DIR)/$(APP_NAME): $(OBJ)
 all: clean $(OBJ_DIR)/$(APP_NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@verifast $(VFFLAGS) -c $<
+	@verifast -c $(VFFLAGS) $<
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) -MM -MP -MT $@ -MF $(@:.o=.d) $<
-	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
+	$(CC) -c $(CFLAGS) $(INCLUDE) -o $@ $<
 
 run:
 	@make
