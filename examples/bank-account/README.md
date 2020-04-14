@@ -1,17 +1,23 @@
 # bank-account
-Example of file splitting and Makefile.  
-This is based on *Exercise 4*.
+
+Example of file splitting and Makefile.
+
+This is based on [Exercise 4](../../exercise-04.c).
 
 ## Usage
+
 ### Build & Run
+
 ```sh
-make run
+$ make run
 ```
 
 ### Verify
+
 ```sh
-make verif
+$ make verif
 ```
 
 ## License
+
 [MIT](/LICENSE)

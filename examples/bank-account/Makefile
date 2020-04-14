@@ -1,3 +1,5 @@
+# see https://github.com/ahuglajbclajep/CompCert-Makefile
+
 CC = ccomp
 CFLAGS = -O2
 LDFLAGS =
@@ -9,19 +11,19 @@ VFFLAGS = -disable_overflow_check
 APP_NAME = Root-Finding
 SRC_DIR = src
 OBJ_DIR = build
-SRC = $(shell ls $(SRC_DIR)/*.c)
+SRC = $(wildcard $(SRC_DIR)/*.c)
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 $(OBJ_DIR)/$(APP_NAME): $(OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS) $(LIBS)
-
-all: clean $(OBJ_DIR)/$(APP_NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@verifast -c $(VFFLAGS) $<
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) -MM -MP -MT $@ -MF $(@:.o=.d) $<
 	$(CC) -c $(CFLAGS) $(INCLUDE) -o $@ $<
+
+all: clean $(OBJ_DIR)/$(APP_NAME)
 
 run:
 	@make
